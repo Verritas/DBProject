@@ -51,14 +51,12 @@ namespace DBProject
         private void GetAllRecords()
         {
             InitDB();
-            if (connect != null && connect.State == ConnectionState.Open)
-            {
-                var adapter = new SqlDataAdapter("select * from vStudentsList order by ID;", connect);
-                DataTable dataTable = new DataTable();
-                DataSet DS = new DataSet();
-                adapter.Fill(DS, "table1");
-                DBTable.DataContext = DS.Tables[0];
-            }
+
+            var adapter = new SqlDataAdapter("select * from vStudentsList order by ID;", connect);
+            DataSet DS = new DataSet();
+            adapter.Fill(DS, "table1");
+            DBTable.DataContext = DS.Tables[0];
+
             CloseDB();
         }
 
@@ -102,6 +100,23 @@ namespace DBProject
             GetAllRecords();
         }
 
+        private void TryLoadByName(string name)
+        {
+            InitDB();
+
+            var adapter = new SqlDataAdapter("select * from vStudentsList where fam like '" + name + "%'order by ID;", connect);
+            if (name=="" )
+            {
+                adapter = new SqlDataAdapter("select * from vStudentsList order by ID;", connect);
+            }
+            DataTable dataTable = new DataTable();
+            DataSet DS = new DataSet();
+            adapter.Fill(DS, "table1");
+            DBTable.DataContext = DS.Tables[0];
+
+            CloseDB();
+        }
+
         private void ButtonAdd_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -114,7 +129,12 @@ namespace DBProject
                 if (!numberRegex.IsMatch(TextBlockCS.Text)) throw new ErrorAddStudent();
                 if (!numberRegex.IsMatch(TextBlockForeign.Text)) throw new ErrorAddStudent();
 
-                TryAddRecord(TextBlockFamily.Text, Convert.ToInt32(TextBlockYear.Text), Convert.ToDouble(TextBlockMath.Text), Convert.ToDouble(TextBlockCS.Text), Convert.ToDouble(TextBlockForeign.Text));
+                TryAddRecord(TextBlockFamily.Text, 
+                            Convert.ToInt32(TextBlockYear.Text), 
+                            Convert.ToDouble(TextBlockMath.Text), 
+                            Convert.ToDouble(TextBlockCS.Text),
+                            Convert.ToDouble(TextBlockForeign.Text));
+
                 CaptionAddError.Text = "";
             }
             catch (ErrorAddStudent)
@@ -172,6 +192,11 @@ namespace DBProject
                     break;
             }
             DBTable.DataContext = view;
+        }
+
+        private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TryLoadByName(SearchTextBox.Text);
         }
     }
 }
