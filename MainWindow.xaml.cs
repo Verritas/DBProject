@@ -147,5 +147,31 @@ namespace DBProject
                 RemoveIDLabel.Text = "Error on DB";
             }
         }
+
+        private void SortTypes_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            DataView view = ((DataTable)DBTable.DataContext).DefaultView;
+            switch (SortTypes.SelectedIndex) {
+                case 0:
+                    view.Sort = "ID ASC";
+                    break;
+                case 1:
+                    view.Sort = "Fam ASC";
+                    break;
+                case 2:
+                    view.Sort = "byear ASC";
+                    break;
+                case 3:
+                    view.Sort = "math ASC";
+                    break;
+                case 4:
+                    view.Sort = "cs ASC";
+                    break;
+                case 5:
+                    view.Sort = "forLang ASC";
+                    break;
+            }
+            DBTable.DataContext = view;
+        }
     }
 }
