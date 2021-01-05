@@ -60,6 +60,18 @@ namespace DBProject
             CloseDB();
         }
 
+        private void GetAverageRecords()
+        {
+            InitDB();
+
+            var adapter = new SqlDataAdapter("select * from vStudentsListAverage", connect);
+            DataSet DS = new DataSet();
+            adapter.Fill(DS, "table1");
+            DBTable.DataContext = DS.Tables[0];
+
+            CloseDB();
+        }
+
         private void TryAddRecord(string fam, int year, double math, double cs, double forlang)
         {
             InitDB();
@@ -104,7 +116,7 @@ namespace DBProject
         {
             InitDB();
 
-            var adapter = new SqlDataAdapter("select * from vStudentsList where fam like '" + name + "%'order by ID;", connect);
+            var adapter = new SqlDataAdapter("select * from vStudentsList where family like '" + name + "%'order by ID;", connect);
             if (name=="" )
             {
                 adapter = new SqlDataAdapter("select * from vStudentsList order by ID;", connect);
@@ -173,22 +185,22 @@ namespace DBProject
             DataView view = ((DataTable)DBTable.DataContext).DefaultView;
             switch (SortTypes.SelectedIndex) {
                 case 0:
-                    view.Sort = "ID ASC";
+                    view.Sort = "Id ASC";
                     break;
                 case 1:
-                    view.Sort = "Fam ASC";
+                    view.Sort = "Family ASC";
                     break;
                 case 2:
-                    view.Sort = "byear ASC";
+                    view.Sort = "YearOfBirth ASC";
                     break;
                 case 3:
-                    view.Sort = "math ASC";
+                    view.Sort = "Math ASC";
                     break;
                 case 4:
                     view.Sort = "cs ASC";
                     break;
                 case 5:
-                    view.Sort = "forLang ASC";
+                    view.Sort = "Foreign ASC";
                     break;
             }
             DBTable.DataContext = view;
@@ -197,6 +209,16 @@ namespace DBProject
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             TryLoadByName(SearchTextBox.Text);
+        }
+
+        private void AverageTextBox_Checked(object sender, RoutedEventArgs e)
+        {
+            GetAverageRecords();
+        }
+
+        private void AverageTextBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            GetAllRecords();
         }
     }
 }

@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid Margin="0,0,2,2">
-        <DataGrid x:Name="DBTable" ItemsSource="{Binding}"  HorizontalAlignment="Left" Height="193" Margin="86,10,0,0" VerticalAlignment="Top" Width="612"/>
+        <DataGrid x:Name="DBTable" ItemsSource="{Binding}"  HorizontalAlignment="Left" Height="193" Margin="86,10,0,0" VerticalAlignment="Top" Width="600" ColumnWidth="100" AutoGenerateColumns="True"/>
         <TextBox x:Name="TextBlockFamily" HorizontalAlignment="Left" Height="24" Margin="130,218,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
         <TextBlock HorizontalAlignment="Left" Margin="86,222,0,0" TextWrapping="Wrap" Text="Family" VerticalAlignment="Top"/>
         <TextBox x:Name="TextBlockYear" HorizontalAlignment="Left" Height="24" Margin="130,250,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
@@ -34,5 +34,6 @@
         <TextBlock HorizontalAlignment="Left" Margin="510,219,0,0" TextWrapping="Wrap" Text="Rule of sort:" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="487,257,0,0" TextWrapping="Wrap" Text="Search by name:" VerticalAlignment="Top"/>
         <TextBox x:Name="SearchTextBox" HorizontalAlignment="Left" Height="23" Margin="578,254,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" TextChanged="SearchTextBox_TextChanged"/>
+        <CheckBox x:Name="AverageTextBox" Content="Average" HorizontalAlignment="Left" Margin="578,291,0,0" VerticalAlignment="Top" Checked="AverageTextBox_Checked" Unchecked="AverageTextBox_Unchecked"/>
     </Grid>
 </Window>
